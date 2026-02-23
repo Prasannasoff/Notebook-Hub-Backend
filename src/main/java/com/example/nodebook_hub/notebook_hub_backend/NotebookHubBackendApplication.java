@@ -10,10 +10,10 @@ public class NotebookHubBackendApplication {
 		System.setProperty("DB_URL", dotenv.get("DB_URL"));
 		System.setProperty("DB_USERNAME", dotenv.get("DB_USERNAME"));
 		System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
+		System.setProperty("STRIPE_KEY",dotenv.get("STRIPE_KEY"));
 	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(NotebookHubBackendApplication.class, args);
 	}
-
 }

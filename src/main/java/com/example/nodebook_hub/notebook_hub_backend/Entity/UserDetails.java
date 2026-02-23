@@ -2,6 +2,8 @@ package com.example.nodebook_hub.notebook_hub_backend.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.Arrays;
+
 @Entity
 @Table(name="user_data")
 public class UserDetails {
@@ -99,5 +101,18 @@ public class UserDetails {
 
     public void setAdmin(Boolean admin) {
         this.admin = admin;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDetails{" +
+                "user_id=" + user_id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", phone_number='" + phone_number + '\'' +
+
+                ", admin=" + admin +
+                '}';
     }
 }
