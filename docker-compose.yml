@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+
+  postgres-db:
+    image: postgres:16
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: notebook_service
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  notebook-app:
+    image: notebook-hub:v1
+    container_name: notebook-app
+    depends_on:
+      - postgres-db
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "9092:9092"
+
+volumes:
+  postgres-data:

@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notebook-backend
+  namespace: notebook-app
+
+spec:
+  replicas: 5
+
+  selector:
+    matchLabels:
+      app: notebook-backend
+
+  template:
+    metadata:
+      labels:
+        app: notebook-backend
+
+    spec:
+      containers:
+
+        - name: notebook-backend
+
+          image: notebook-hub:v1
+
+          imagePullPolicy: Never
+
+          ports:
+            - containerPort: 9092
+
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: notebook-config
+                  key: DB_HOST
+
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: notebook-config
+                  key: DB_PORT
+
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: notebook-config
+                  key: DB_NAME
+
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: notebook-secret
+                  key: DB_USERNAME
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: notebook-secret
+                  key: DB_PASSWORD

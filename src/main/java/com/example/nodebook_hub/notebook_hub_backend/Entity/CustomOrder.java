@@ -38,11 +38,11 @@ public class CustomOrder {
 
     @Column(name = "delivered_date")
     private LocalDateTime deliveredDate;
-    @Lob
-    @Column(name="note-image", columnDefinition="LONGBLOB")
+
+    @Column(name="note-image")
     private byte[] noteImage;
-    @Lob
-    @Column(name="logo-image", columnDefinition="LONGBLOB")
+
+    @Column(name="logo-image")
     private byte[] logoImage;
 
     public CustomOrder() {

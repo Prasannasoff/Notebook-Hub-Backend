@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notebook-config
+  namespace: notebook-app
+
+data:
+  DB_HOST: postgres-service #Using Service, instead of port we can connect using dns name
+  DB_PORT: "5432"
+  DB_NAME: notebook_service

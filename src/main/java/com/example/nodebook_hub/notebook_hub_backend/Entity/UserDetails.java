@@ -25,12 +25,11 @@ public class UserDetails {
     @Column(name="phone_number", length=15)
     private String phone_number;
 
-    @Lob
-    @Column(name="image", columnDefinition="LONGBLOB")
+    @Column(name="image")
     private byte[] image;
 
-    @Column(name = "admin", columnDefinition = "TINYINT(1)") // Active status as a tinyint (boolean)
-    private Boolean admin=false;
+    @Column(name = "admin")
+    private Boolean admin = false;
 
     @PrePersist
     protected void prePersist() {

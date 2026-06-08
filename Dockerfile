@@ -1,13 +1,10 @@
 # Use an official OpenJDK 21 runtime as the base image
-FROM openjdk:21-jdk-slim
-
+FROM eclipse-temurin:21-jdk
 # Set the working directory inside the container
 WORKDIR /app
 
 # Copy the built JAR file into the container
-COPY target/*.jar app.jar
-
-COPY .env .env
+COPY target/notebook-hub-backend-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose the application port (same as your Spring Boot server.port)
 EXPOSE 9092

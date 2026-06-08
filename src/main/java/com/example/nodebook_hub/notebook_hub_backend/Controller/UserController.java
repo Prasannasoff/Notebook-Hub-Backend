@@ -11,13 +11,7 @@ import com.example.nodebook_hub.notebook_hub_backend.Entity.NoteBookDetails;
 import com.example.nodebook_hub.notebook_hub_backend.Entity.OrderDetails;
 import com.example.nodebook_hub.notebook_hub_backend.Entity.UserDetails;
 import com.example.nodebook_hub.notebook_hub_backend.Service.UserService;
-import com.stripe.Stripe;
-import com.stripe.model.checkout.Session;
-import com.stripe.param.checkout.SessionCreateParams;
-import com.stripe.exception.StripeException;
-import org.hibernate.query.Order;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +31,8 @@ public class UserController {
     private UserService userService;
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @Value("${stripe.api.key}")
-    private String stripeKey;
+
+
     @Autowired
     public UserController(UserService userService){
         this.userService=userService;
@@ -135,62 +129,4 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error processing image");
         }
     }
-    @PostMapping("/create-checkout-session")
-    public Map<String, String> createCheckoutSession(@RequestBody CheckOutDTO request) throws StripeException {
-        BookingDTO bookingData = request.getBookingData();
-        String successUrl = request.getSuccess_url();
-        logger.info("Received booking data: {}", bookingData);
-        logger.info("Success Url {}",successUrl);
-        System.out.println(request.getSuccess_url());
-        String cancelUrl = request.getCancel_url();
-        Map<String, Object> params = new HashMap<>();
-        params.put("payment_method_types", List.of("card"));
-        params.put("mode", "payment");
-        params.put("success_url", successUrl);
-        params.put("cancel_url", "http://localhost:5173/payment-cancel");
-
-        List<Object> lineItems = new ArrayList<>();
-        Map<String, Object> item = new HashMap<>();
-        item.put("price_data", Map.of(
-                "currency", "usd",
-                "unit_amount", (int) (bookingData.getTotalPrice()),// in cents
-                "product_data", Map.of("name", "Notebook Order")
-        ));
-        item.put("quantity", 1);
-        lineItems.add(item);
-
-        params.put("line_items", lineItems);
-
-        Session session = Session.create(params);
-
-        return Map.of("url", session.getUrl());
-    }
-//    @PostMapping("/create-custom-checkout-session")
-//    public Map<String, String> createCustomCheckoutSession(@RequestBody BookingDTO bookingData) throws StripeException {
-//        Stripe.apiKey = stripeKey; // Secret Key
-//
-//        Map<String, Object> params = new HashMap<>();
-//        params.put("payment_method_types", List.of("card"));
-//        params.put("mode", "payment");
-//        params.put("success_url", "http://localhost:5173/custom?session_id={CHECKOUT_SESSION_ID}");
-//
-//        params.put("cancel_url", "http://localhost:5173/payment-cancel");
-//
-//        List<Object> lineItems = new ArrayList<>();
-//        Map<String, Object> item = new HashMap<>();
-//        item.put("price_data", Map.of(
-//                "currency", "usd",
-//                "unit_amount", (int) (bookingData.getTotalPrice()),// in cents
-//                "product_data", Map.of("name", "Notebook Order")
-//        ));
-//        item.put("quantity", 1);
-//        lineItems.add(item);
-//
-//        params.put("line_items", lineItems);
-//
-//        Session session = Session.create(params);
-//
-//        return Map.of("url", session.getUrl());
-//    }
-
 }

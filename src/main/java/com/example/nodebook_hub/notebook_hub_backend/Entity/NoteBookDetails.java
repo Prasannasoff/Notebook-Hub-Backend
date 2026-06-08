@@ -17,8 +17,9 @@ public class NoteBookDetails {
     private int quantity;
     private int price;
     private int pages;
+
     @Lob
-    @Column(name="note-image", columnDefinition="LONGBLOB")
+    @Column(name="note-image")
     private byte[] noteImage;
 
     public NoteBookDetails() {
