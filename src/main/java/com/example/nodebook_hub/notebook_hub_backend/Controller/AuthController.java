@@ -47,7 +47,7 @@ public class AuthController {
             }
 
         }
-        catch(IOException e){
+        catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseDTO("Error processing image", false));
 
